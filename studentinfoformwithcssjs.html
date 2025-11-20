@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Information Form - Colegio de Montalban</title>
+    <style>
+      :root {
+        --primary-color: #2e7d32;
+        --secondary-color: #1b5e20;
+        --accent-color: #4caf50;
+        --light-color: #f1f8e9;
+        --dark-color: #1b5e20;
+        --success-color: #388e3c;
+        --warning-color: #f57c00;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .form-card {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+      }
+
+      .form-header {
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 20px 30px;
+        text-align: center;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo {
+        width: 80px;
+        height: 80px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .logo-text {
+        text-align: left;
+      }
+
+      .logo-text h2 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+        color: white;
+      }
+
+      .logo-text p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .form-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+      }
+
+      .form-header p {
+        opacity: 0.9;
+      }
+
+      .form-body {
+        padding: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--dark-color);
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="number"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        transition: var(--transition);
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+      }
+
+      .radio-group,
+      .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 5px;
+      }
+
+      .radio-option,
+      .checkbox-option {
+        display: flex;
+        align-items: center;
+      }
+
+      .radio-option input,
+      .checkbox-option input {
+        margin-right: 8px;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 20px;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        flex: 1;
+      }
+
+      .btn-submit {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .btn-submit:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+      }
+
+      .btn-reset {
+        background-color: #e0e0e0;
+        color: var(--dark-color);
+      }
+
+      .btn-reset:hover {
+        background-color: #d0d0d0;
+      }
+
+      .error-message {
+        color: #d32f2f;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .success-message {
+        background-color: var(--success-color);
+        color: white;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        text-align: center;
+        margin-top: 20px;
+        display: none;
+      }
+
+      .required::after {
+        content: " *";
+        color: #d32f2f;
+      }
+
+      .disabled-option {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .disabled-option label {
+        color: #666;
+      }
+
+      .institute-note {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 5px;
+        font-style: italic;
+      }
+
+      @media (max-width: 768px) {
+        .form-row {
+          flex-direction: column;
+          gap: 0;
+        }
+
+        .btn-group {
+          flex-direction: column;
+        }
+
+        .logo-container {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .logo {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-card">
+        <div class="form-header">
+          <div class="logo-container">
+            <div class="logo">
+              <img src="cdmlogo.jpg" alt="Colegio de Montalban Logo" />
+            </div>
+            <div class="logo-text">
+              <h2>Student Information Form</h2>
+              <p>Please fill out the form below with your details</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-body">
+          <form id="studentForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name" class="required">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter your full name (e.g., Juan Dela Cruz)"
+                  maxlength="50"
+                />
+                <div class="error-message" id="nameError">
+                  Please enter a valid full name (2-50 characters, letters,
+                  spaces and hyphens only)
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="studentId" class="required">Student ID</label>
+                <input
+                  type="text"
+                  id="studentId"
+                  name="studentId"
+                  placeholder="Enter your student ID (e.g., 12-34567)"
+                  maxlength="8"
+                />
+                <div class="error-message" id="studentIdError">
+                  Please enter a valid student ID (format: xx-xxxxx)
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="age" class="required">Age</label>
+                <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  min="1"
+                  max="100"
+                  placeholder="Enter your age"
+                />
+                <div class="error-message" id="ageError">
+                  Please enter a valid age (1-100)
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email" class="required">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                />
+                <div class="error-message" id="emailError">
+                  Please enter a valid email address
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="required">Gender</label>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input type="radio" id="male" name="gender" value="Male" />
+                  <label for="male">Male</label>
+                </div>
+                <div class="radio-option">
+                  <input
+                    type="radio"
+                    id="female"
+                    name="gender"
+                    value="Female"
+                  />
+                  <label for="female">Female</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" id="other" name="gender" value="Other" />
+                  <label for="other">Other</label>
+                </div>
+              </div>
+              <div class="error-message" id="genderError">
+                Please select your gender
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="course" class="required">Course</label>
+              <select id="course" name="course">
+                <option value="" disabled selected>Select your course</option>
+                <option value="BSIT">
+                  Bachelor of Science in Information Technology (BSIT)
+                </option>
+                <option value="BSCpE">
+                  Bachelor of Science in Computer Engineering (BSCpE)
+                </option>
+                <option value="BSBA_HRM">
+                  Bachelor of Science in Business Administration Major in Human
+                  Resource Management (BSBA HRM)
+                </option>
+                <option value="BSE">
+                  Bachelor of Science in Entrepreneurship (BSE)
+                </option>
+                <option value="BECEd">
+                  Bachelor of Early Childhood Education (BECEd)
+                </option>
+                <option value="BEEd">
+                  Bachelor of Elementary Education (BEEd)
+                </option>
+                <option value="BSEd_Science">
+                  Bachelor of Secondary Education major in Science (BSEd
+                  Science)
+                </option>
+                <option value="BTLEd_ICT">
+                  Bachelor of Technology and Livelihood Education (BTLEd ICT)
+                </option>
+                <option value="TCP">Teacher Certificate Program (TCP)</option>
+              </select>
+              <div class="error-message" id="courseError">
+                Please select your course
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="required">Institute</label>
+              <div class="radio-group">
+                <div class="radio-option disabled-option">
+                  <input
+                    type="radio"
+                    id="ics"
+                    name="institute"
+                    value="Institute of Computing Studies"
+                    disabled
+                  />
+                  <label for="ics">Institute of Computing Studies</label>
+                </div>
+                <div class="radio-option disabled-option">
+                  <input
+                    type="radio"
+                    id="ibe"
+                    name="institute"
+                    value="Institute of Business"
+                    disabled
+                  />
+                  <label for="ibe">Institute of Business</label>
+                </div>
+                <div class="radio-option disabled-option">
+                  <input
+                    type="radio"
+                    id="ite"
+                    name="institute"
+                    value="Institute of Education"
+                    disabled
+                  />
+                  <label for="ite">Institute of Education</label>
+                </div>
+              </div>
+              <div class="institute-note">
+                Institute will be automatically selected based on your course
+              </div>
+              <div class="error-message" id="instituteError">
+                Please select your institute
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="btn-submit">Submit Form</button>
+              <button type="reset" class="btn-reset">Reset Form</button>
+            </div>
+
+            <div class="success-message" id="successMessage">
+              Your form has been submitted successfully!
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const courseToInstituteMap = {
+        BSIT: "ics",
+        BSCpE: "ics",
+        BSBA_HRM: "ibe",
+        BSE: "ibe",
+        BECEd: "ite",
+        BEEd: "ite",
+        BSEd_Science: "ite",
+        BTLEd_ICT: "ite",
+        TCP: "ite",
+      };
+
+      document.getElementById("course").addEventListener("change", function () {
+        const selectedCourse = this.value;
+        const instituteId = courseToInstituteMap[selectedCourse];
+
+        if (instituteId) {
+          // Uncheck all institute radios first
+          document
+            .querySelectorAll('input[name="institute"]')
+            .forEach((radio) => {
+              radio.checked = false;
+            });
+
+          // Check the matching institute radio
+          const targetRadio = document.getElementById(instituteId);
+          if (targetRadio) {
+            targetRadio.checked = true;
+          }
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("studentForm");
+        const successMessage = document.getElementById("successMessage");
+        const nameInput = document.getElementById("name");
+        const nameError = document.getElementById("nameError");
+        const studentIdInput = document.getElementById("studentId");
+        const studentIdError = document.getElementById("studentIdError");
+
+        // Name validation function
+        function validateName(name) {
+          // Check length
+          if (name.length < 2 || name.length > 50) {
+            return false;
+          }
+
+          // Check format - allow letters, spaces, and hyphens only
+          const nameRegex = /^[A-Za-z\s-]+$/;
+          return nameRegex.test(name);
+        }
+
+        // Student ID validation function
+        function validateStudentId(studentId) {
+          // Check format: xx-xxxxx (numbers only)
+          const studentIdRegex = /^\d{2}-\d{5}$/;
+          return studentIdRegex.test(studentId);
+        }
+
+        // Real-time name validation
+        nameInput.addEventListener("input", function () {
+          const name = this.value.trim();
+
+          if (name === "") {
+            nameError.style.display = "none";
+            this.classList.remove("invalid");
+          } else if (!validateName(name)) {
+            nameError.style.display = "block";
+            this.classList.add("invalid");
+          } else {
+            nameError.style.display = "none";
+            this.classList.remove("invalid");
+          }
+        });
+
+        // Real-time student ID validation and formatting
+        studentIdInput.addEventListener("input", function () {
+          let value = this.value.replace(/\D/g, ""); // Remove non-digits
+
+          // Format as xx-xxxxx
+          if (value.length > 2) {
+            value = value.substring(0, 2) + "-" + value.substring(2, 7);
+          }
+
+          this.value = value;
+
+          // Validate
+          if (value === "") {
+            studentIdError.style.display = "none";
+            this.classList.remove("invalid");
+          } else if (!validateStudentId(value)) {
+            studentIdError.style.display = "block";
+            this.classList.add("invalid");
+          } else {
+            studentIdError.style.display = "none";
+            this.classList.remove("invalid");
+          }
+        });
+
+        // Add real-time validation for other fields
+        const fields = ["age", "email", "course"];
+        fields.forEach((field) => {
+          const input = document.getElementById(field);
+          const error = document.getElementById(field + "Error");
+
+          input.addEventListener("blur", function () {
+            validateField(input, error);
+          });
+
+          input.addEventListener("input", function () {
+            if (input.classList.contains("invalid")) {
+              validateField(input, error);
+            }
+          });
+        });
+
+        // Validate radio buttons
+        const genderInputs = document.querySelectorAll('input[name="gender"]');
+        const genderError = document.getElementById("genderError");
+
+        genderInputs.forEach((input) => {
+          input.addEventListener("change", function () {
+            validateRadioGroup("gender", genderError);
+          });
+        });
+
+        // Form submission
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Validate all fields
+          let isValid = true;
+
+          // Name validation
+          const nameValue = nameInput.value.trim();
+          if (!validateName(nameValue)) {
+            nameError.style.display = "block";
+            nameInput.classList.add("invalid");
+            isValid = false;
+          } else {
+            nameError.style.display = "none";
+            nameInput.classList.remove("invalid");
+          }
+
+          // Student ID validation
+          const studentIdValue = studentIdInput.value.trim();
+          if (!validateStudentId(studentIdValue)) {
+            studentIdError.style.display = "block";
+            studentIdInput.classList.add("invalid");
+            isValid = false;
+          } else {
+            studentIdError.style.display = "none";
+            studentIdInput.classList.remove("invalid");
+          }
+
+          // Other fields
+          isValid =
+            validateField(
+              document.getElementById("age"),
+              document.getElementById("ageError")
+            ) && isValid;
+          isValid =
+            validateField(
+              document.getElementById("email"),
+              document.getElementById("emailError")
+            ) && isValid;
+          isValid =
+            validateField(
+              document.getElementById("course"),
+              document.getElementById("courseError")
+            ) && isValid;
+
+          // Radio groups
+          isValid = validateRadioGroup("gender", genderError) && isValid;
+          isValid = validateInstitute() && isValid;
+
+          if (isValid) {
+            // Show success message
+            successMessage.style.display = "block";
+
+            // In a real application, you would send the data to a server here
+            console.log("Form submitted with data:", getFormData());
+
+            // Reset form after 3 seconds
+            setTimeout(() => {
+              form.reset();
+              successMessage.style.display = "none";
+            }, 3000);
+          } else {
+            // Scroll to first error
+            const firstError = document.querySelector(
+              '.error-message:not([style*="display: none"])'
+            );
+            if (firstError) {
+              firstError.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }
+          }
+        });
+
+        // Form reset
+        form.addEventListener("reset", function () {
+          // Clear all error messages
+          document.querySelectorAll(".error-message").forEach((error) => {
+            error.style.display = "none";
+          });
+
+          // Remove invalid classes
+          document.querySelectorAll(".invalid").forEach((element) => {
+            element.classList.remove("invalid");
+          });
+
+          // Hide success message
+          successMessage.style.display = "none";
+        });
+
+        // Validation functions
+        function validateField(input, errorElement) {
+          let isValid = true;
+
+          if (input.type === "email") {
+            isValid = validateEmail(input.value);
+          } else if (input.type === "number") {
+            isValid = input.value && input.value >= 1 && input.value <= 100;
+          } else if (input.tagName === "SELECT") {
+            isValid = input.value !== "";
+          } else {
+            isValid = input.value.trim() !== "";
+          }
+
+          if (!isValid) {
+            errorElement.style.display = "block";
+            input.classList.add("invalid");
+          } else {
+            errorElement.style.display = "none";
+            input.classList.remove("invalid");
+          }
+
+          return isValid;
+        }
+
+        function validateRadioGroup(name, errorElement) {
+          const inputs = document.querySelectorAll(`input[name="${name}"]`);
+          const isChecked = Array.from(inputs).some((input) => input.checked);
+
+          if (!isChecked) {
+            errorElement.style.display = "block";
+            inputs[0].closest(".radio-group").classList.add("invalid");
+          } else {
+            errorElement.style.display = "none";
+            inputs[0].closest(".radio-group").classList.remove("invalid");
+          }
+
+          return isChecked;
+        }
+
+        function validateInstitute() {
+          const inputs = document.querySelectorAll('input[name="institute"]');
+          const isChecked = Array.from(inputs).some((input) => input.checked);
+          const errorElement = document.getElementById("instituteError");
+
+          if (!isChecked) {
+            errorElement.style.display = "block";
+            return false;
+          } else {
+            errorElement.style.display = "none";
+            return true;
+          }
+        }
+
+        function validateEmail(email) {
+          const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          return re.test(email);
+        }
+
+        function getFormData() {
+          const formData = new FormData(form);
+          const data = {};
+
+          for (let [key, value] of formData.entries()) {
+            data[key] = value;
+          }
+
+          return data;
+        }
+      });
+    </script>
+  </body>
+</html>
